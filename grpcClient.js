@@ -12,12 +12,12 @@ const loadClient = (app) => {
         credentials.createInsecure()
     );
     console.log("Billing client loaded successfully");
-    // const videoProto = loadProto("video");
-    // app.locals.videoClient = new videoProto.VideoService(
-    //     process.env.VIDEO_SERVICE_URL,
-    //     credentials.createInsecure()
-    // );
-    // console.log("Video client loaded successfully");
+    const videoProto = loadProto("video");
+    app.locals.videoClient = new videoProto.VideoService(
+        process.env.VIDEO_SERVICE_URL,
+        credentials.createInsecure()
+    );
+    console.log("Video client loaded successfully");
 };
 
 export default loadClient;

@@ -6,8 +6,7 @@ const billingRouter = Router();
 billingRouter.route('/check')
     .get(billingService.BillsCheck);
 
-    billingRouter.route('/')
-    .get(billingService.ListBillsByUser)
+billingRouter.route('/')
     .post(billingService.CreateBill); 
 
 billingRouter.route('/:uuid')

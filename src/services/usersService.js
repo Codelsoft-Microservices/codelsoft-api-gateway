@@ -2,6 +2,7 @@
 
 import catchAsync from '../utils/catchAsync.js';
 import { verifyTokenJWT } from '../utils/tokenGenerator.js';
+import {v4 as uuidv4} from 'uuid';
 
 const GetAllUsers = catchAsync(async (req, res, next) => {
     const usersClient = req.app.locals.usersClient;
@@ -54,6 +55,8 @@ const GetUserByUUID = catchAsync(async (req, res, next) => {
 const CreateUser = catchAsync(async (req, res, next) => {
     const usersClient = req.app.locals.usersClient;
     const token = req.headers.authorization;
+    const { name, lastname, email, password, passwordConfirm, role } = req.body;
+    const uuid = uuidv4(); // Generar un UUID único para el nuevo usuario
     if (!token) {
         return res.status(401).json({ message: "No se ha proporcionado un token de autenticación." });
     }
@@ -64,8 +67,21 @@ const CreateUser = catchAsync(async (req, res, next) => {
         return res.status(401).json({ message: "Token de autenticación inválido." });
     }
 
-    usersClient.CreateUser(req.body, (err, response) => {
+    const fakeBody = 
+    {
+        uuid,
+        name,
+        lastname,
+        email,
+        password,
+        passwordConfirm,
+        role
+    };
+
+    usersClient.CreateUser(fakeBody, async (err, response) => {
         if (err) return next(err);
+        // Si la creación del usuario es exitosa, se llama a la función de sincronización
+        await syncUserCreation(fakeBody)
         return res.status(201).json(response);
     });
 });

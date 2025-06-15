@@ -62,6 +62,40 @@ const updatePassword = catchAsync(async (req, res) => {
     }
 });
 
+const syncUserCreation = async (user) => {
+    try {
+        const response = await axios.post(`http://${process.env.AUTH_SERVICE_URL}/auth/syncUserCreation`, {
+            uuid: user.uuid,
+            name: user.name,
+            lastname: user.lastname,
+            email: user.email,
+            password: user.password,
+            role: user.role
+        });
+        return response.data;
+    } catch (error) {
+        if (error.response) {
+            throw new Error(error.response.data?.message || 'Error from Auth Service');
+        } else {
+            throw new Error('Internal Server Error');
+        }
+    }
+};
 
+const syncPasswordUpdate = async (user) => {
+    try {
+        const response = await axios.post(`http://${process.env.AUTH_SERVICE_URL}/auth/syncPasswordUpdate`, {
+            uuid: user.uuid,
+            new_password: user.new_password
+        });
+        return response.data;
+    } catch (error) {
+        if (error.response) {
+            throw new Error(error.response.data?.message || 'Error from Auth Service');
+        } else {
+            throw new Error('Internal Server Error');
+        }
+    }
+};
 
-export { authCheck, login, updatePassword };
+export { authCheck, login, updatePassword, syncUserCreation, syncPasswordUpdate };

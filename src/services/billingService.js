@@ -1,8 +1,14 @@
 import catchAsync from '../utils/catchAsync.js';
 
-const RouteCheck = (req, res) => {
-    res.status(200).send("OK Billing Check");
-};
+const BillsCheck = catchAsync(async (req, res, next) => {
+    console.log("¡BillsCheck fue llamado!");
+    const billingClient = req.app.locals.billingClient;
+
+    billingClient.BillsCheck({}, (err, response) => {
+        if (err) return next(err);
+        return res.status(200).json(response);
+    });
+});
 
 const CreateBill = catchAsync(async (req, res, next) => {
   const billingClient = req.app.locals.billingClient;
@@ -56,7 +62,7 @@ const ListBillsByUser = catchAsync(async (req, res, next) => {
 });
 
 export default {
-    RouteCheck,
+    BillsCheck,
     CreateBill,
     GetBillById,
     UpdateBillStatus,

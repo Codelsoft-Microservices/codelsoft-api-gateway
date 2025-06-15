@@ -1,7 +1,7 @@
 import { config } from "dotenv";
 import express from "express";
 import loadClient from "./grpcClient.js";
-import billingRouter from "./routes/billingRouter.js";
+import billingRouter from "./src/routes/billingRouter.js";
 
 config({ path: ".env" });
 const app = express();
@@ -9,7 +9,8 @@ const app = express();
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.status(200).send("OK");
+    console.log("Received a request at the root endpoint");
+    res.status(200).send("OK");
 });
 
 loadClient(app);

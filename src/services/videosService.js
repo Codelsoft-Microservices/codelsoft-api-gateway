@@ -23,7 +23,7 @@ const GetVideoByID = catchAsync(async (req, res, next) => {
   const { uuid } = req.params;
   const videoClient = req.app.locals.videoClient;
 
-  videoClient.GetVideoByID({ uuid: uuid }, (err, response) => {
+  videoClient.GetVideoByID({ uuid }, (err, response) => {
     if (err) return next(err);
     return res.status(200).json(response);
   });
@@ -51,7 +51,7 @@ const DeleteVideo = catchAsync(async (req, res, next) => {
 
   videoClient.DeleteVideo({ uuid }, (err, response) => {
     if (err) return next(err);
-    return res.status(200).json(response);
+    return res.status(204).json(response);
   });
 });
 
@@ -62,8 +62,8 @@ const ListVideos = catchAsync(async (req, res, next) => {
 
   videoClient.ListVideos({ 
     userUuid,
-    title: title || undefined,
-    genre: genre || undefined,
+    title: title || "",
+    genre: genre || "",
     deleted: false 
   }, (err, response) => {
     if (err) {

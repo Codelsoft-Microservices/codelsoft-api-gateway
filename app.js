@@ -1,0 +1,23 @@
+import { config } from "dotenv";
+import express from "express";
+import loadClient from "./grpcClient.js";
+import billingRouter from "./routes/billingRouter.js";
+
+config({ path: ".env" });
+const app = express();
+
+app.use(express.json());
+
+app.get("/", (req, res) => {
+  res.status(200).send("OK");
+});
+
+loadClient(app);
+
+app.use("/billing", billingRouter);
+
+app.listen(process.env.PORT, () => {
+  console.log(`- Entorno:      ${process.env.NODE_ENV}`);
+  console.log(`- Puerto:       ${process.env.PORT}`);
+  console.log(`- URL:          http://localhost:${process.env.PORT}`);
+});

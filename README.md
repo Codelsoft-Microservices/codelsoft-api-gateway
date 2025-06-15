@@ -4,6 +4,11 @@ Recuerde que para que el sistema funcione correctamente, se deben levantar todos
 ## Pre-requisitos
 - [Node.js](https://nodejs.org/es/) (version 22.14.0)
 
+
+
+## Seeding del sistema
+Se debe realizar el proceso de seeding manualmente en cada repositorio segun corresponda, cada repositorio cuenta con su propio manual de instrucciones, para obtener las credenciales de prueba, revisar el manual correspondiente al servicio de autenticacion. 
+
 ## Instalación y configuración
 
 1. **Clonar el repositorio**

@@ -9,6 +9,7 @@ import usersRouter from "./src/routes/usersRouter.js";
 
 config({ path: ".env" });
 const app = express();
+app.use(morgan('dev'));
 
 app.use(express.json());
 app.use(morgan('dev'));

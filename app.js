@@ -3,9 +3,11 @@ import express from "express";
 import loadClient from "./grpcClient.js";
 import billingRouter from "./src/routes/billingRouter.js";
 import videosRouter from "./src/routes/videosRouter.js";
+import morgan from 'morgan';
 
 config({ path: ".env" });
 const app = express();
+app.use(morgan('dev'));
 
 app.use(express.json());
 

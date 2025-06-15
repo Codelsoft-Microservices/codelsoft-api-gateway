@@ -18,6 +18,12 @@ const loadClient = (app) => {
         credentials.createInsecure()
     );
     console.log("Video client loaded successfully");
+    const usersProto = loadProto("users");
+    app.locals.usersClient = new usersProto.UsersService(
+        process.env.USER_SERVICE_URL,
+        credentials.createInsecure()
+    );
+    console.log("Users client loaded successfully");
 };
 
 export default loadClient;

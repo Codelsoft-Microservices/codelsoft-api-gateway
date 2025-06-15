@@ -5,6 +5,7 @@ import loadClient from "./grpcClient.js";
 import billingRouter from "./src/routes/billingRouter.js";
 import videosRouter from "./src/routes/videosRouter.js";
 import authRouter from "./src/routes/authRouter.js";
+import usersRouter from "./src/routes/usersRouter.js";
 
 config({ path: ".env" });
 const app = express();
@@ -19,9 +20,10 @@ app.get("/", (req, res) => {
 
 loadClient(app);
 
-app.use("/billing", billingRouter);
+app.use("/facturas", billingRouter);
 app.use("/videos", videosRouter);
 app.use("/auth", authRouter);
+app.use("/usuarios", usersRouter);
 
 app.listen(process.env.PORT, () => {
   console.log(`- Entorno:      ${process.env.NODE_ENV}`);

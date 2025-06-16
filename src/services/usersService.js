@@ -3,6 +3,7 @@
 import catchAsync from '../utils/catchAsync.js';
 import { verifyTokenJWT } from '../utils/tokenGenerator.js';
 import {v4 as uuidv4} from 'uuid';
+import { syncUserCreation } from './authService.js';
 
 const GetAllUsers = catchAsync(async (req, res, next) => {
     const usersClient = req.app.locals.usersClient;
@@ -57,9 +58,8 @@ const CreateUser = catchAsync(async (req, res, next) => {
     const token = req.headers.authorization;
     const { name, lastname, email, password, passwordConfirm, role } = req.body;
     const uuid = uuidv4(); // Generar un UUID único para el nuevo usuario
-    if (!token) {
-        return res.status(401).json({ message: "No se ha proporcionado un token de autenticación." });
-    }
+    
+    if(role && role === 'Administrador') {
 
     // Verificar el token JWT
     const decodedToken = verifyTokenJWT(token);
@@ -67,9 +67,15 @@ const CreateUser = catchAsync(async (req, res, next) => {
         return res.status(401).json({ message: "Token de autenticación inválido." });
     }
 
+    // Verificar si el usuario es un administrador
+    if(decodedToken.user.role !== 'Administrador' && role === 'Administrador') {
+        return res.status(403).json({ message: "No tienes permisos para acceder a esta ruta." });
+    }
+    }  
+
     const fakeBody = 
     {
-        uuid,
+        uuid: uuid,
         name,
         lastname,
         email,

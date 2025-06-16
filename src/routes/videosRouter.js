@@ -9,7 +9,7 @@ videosRouter.route('/')
 
 videosRouter.route('/:uuid')
     .get(videoService.GetVideoByID) 
-    .patcht(videoService.UpdateVideo) 
+    .patch(videoService.UpdateVideo) 
     .delete(videoService.DeleteVideo); 
 
 

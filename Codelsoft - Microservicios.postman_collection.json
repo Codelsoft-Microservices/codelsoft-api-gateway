@@ -1,0 +1,322 @@
+{
+	"info": {
+		"_postman_id": "ab68835f-d181-4acc-a90d-5f0d8912f137",
+		"name": "Codelsoft - Microservicios",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33599274"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"if (response.token) {\r",
+									"    pm.collectionVariables.set(\"auth_token\", response.token);\r",
+									"    pm.collectionVariables.set(\"auth_uuid\", response.user.uuid);\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"admin@admin.com\",\r\n    \"password\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Contraseña",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.collectionVariables.get(\"auth_token\")) {\r",
+									"  pm.collectionVariables.unset(\"auth_token\");\r",
+									"  pm.collectionVariables.unset(\"auth_uuid\")\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InV1aWQiOiIwM2Q5ODhlMy0xNmRhLTQ4ODUtOTI5YS1jZTYzYWZhNWZhMmUiLCJuYW1lIjoidGVzdCIsImxhc3RuYW1lIjoidGVzdCIsImVtYWlsIjoidGVzdEB0ZXN0LmNvbSIsInJvbGUiOiJDbGllbnRlIiwiY3JlYXRlZEF0IjoiMjAyNS0wNi0xNlQwMDoyMDowMi44ODRaIiwidXBkYXRlZEF0IjoiMjAyNS0wNi0xNlQwMDoyMDowMi44ODRaIn0sImlhdCI6MTc1MDAzMzI5NCwiZXhwIjoxNzU1MjE3Mjk0LCJhdWQiOiJDT0RFTFNPRlQtQ0xJRU5UIiwiaXNzIjoiQ09ERUxTT0ZULUFQSSIsImp0aSI6IkpXVC0wMDEifQ.OylbZlpYQiquKX93NYjvNlqZZUSLwLKPjUX_S276mOI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"current_password\": \"test\",\r\n    \"new_password\": \"test1\",\r\n    \"password_confirmation\": \"test1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/usuarios/{{auth_uuid}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"usuarios",
+								"{{auth_uuid}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Crear usuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"test\",\r\n    \"lastname\": \"test\",\r\n    \"email\": \"test@test.com\",\r\n    \"password\": \"test\",\r\n    \"passwordConfirm\": \"test\",\r\n    \"role\": \"Cliente\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/usuarios/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"usuarios",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar todos los usuarios",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InV1aWQiOiJlODRlODU3Ny04OTAwLTQ5ZmUtOGNiZC1lYjk4ZmIxNzFjMGQiLCJuYW1lIjoiQWRtaW4iLCJsYXN0bmFtZSI6IkFkbWluIiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlIjoiQWRtaW5pc3RyYWRvciIsImNyZWF0ZWRBdCI6IjIwMjUtMDYtMTVUMjM6MTc6MzAuODE3WiIsInVwZGF0ZWRBdCI6IjIwMjUtMDYtMTVUMjM6MTc6MzAuODE3WiJ9LCJpYXQiOjE3NTAwMzQxNDMsImV4cCI6MTc1NTIxODE0MywiYXVkIjoiQ09ERUxTT0ZULUNMSUVOVCIsImlzcyI6IkNPREVMU09GVC1BUEkiLCJqdGkiOiJKV1QtMDAxIn0.VXyvOxF24B5NkzqplAYTAavA5gws_ZxYr_uca2xiJpg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/usuarios/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"usuarios",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener usuario por ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InV1aWQiOiJlODRlODU3Ny04OTAwLTQ5ZmUtOGNiZC1lYjk4ZmIxNzFjMGQiLCJuYW1lIjoiQWRtaW4iLCJsYXN0bmFtZSI6IkFkbWluIiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlIjoiQWRtaW5pc3RyYWRvciIsImNyZWF0ZWRBdCI6IjIwMjUtMDYtMTVUMjM6MTc6MzAuODE3WiIsInVwZGF0ZWRBdCI6IjIwMjUtMDYtMTVUMjM6MTc6MzAuODE3WiJ9LCJpYXQiOjE3NTAwMzQxNDMsImV4cCI6MTc1NTIxODE0MywiYXVkIjoiQ09ERUxTT0ZULUNMSUVOVCIsImlzcyI6IkNPREVMU09GVC1BUEkiLCJqdGkiOiJKV1QtMDAxIn0.VXyvOxF24B5NkzqplAYTAavA5gws_ZxYr_uca2xiJpg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/usuarios/{{user_uuid}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"usuarios",
+								"{{user_uuid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar usuario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InV1aWQiOiJlODRlODU3Ny04OTAwLTQ5ZmUtOGNiZC1lYjk4ZmIxNzFjMGQiLCJuYW1lIjoiQWRtaW4iLCJsYXN0bmFtZSI6IkFkbWluIiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlIjoiQWRtaW5pc3RyYWRvciIsImNyZWF0ZWRBdCI6IjIwMjUtMDYtMTVUMjM6MTc6MzAuODE3WiIsInVwZGF0ZWRBdCI6IjIwMjUtMDYtMTVUMjM6MTc6MzAuODE3WiJ9LCJpYXQiOjE3NTAwMzQxNDMsImV4cCI6MTc1NTIxODE0MywiYXVkIjoiQ09ERUxTT0ZULUNMSUVOVCIsImlzcyI6IkNPREVMU09GVC1BUEkiLCJqdGkiOiJKV1QtMDAxIn0.VXyvOxF24B5NkzqplAYTAavA5gws_ZxYr_uca2xiJpg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/usuarios/{{user_uuid}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"usuarios",
+								"{{user_uuid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar usuario",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"test\",\r\n    \"lastname\": \"test\",\r\n    \"email\": \"test@test.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/usuarios/{{user_uuid}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"usuarios",
+								"{{user_uuid}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{auth_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:50052",
+			"type": "string"
+		},
+		{
+			"key": "auth_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "user_uuid",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "video_uuid",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "bill_uuid",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "auth_uuid",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

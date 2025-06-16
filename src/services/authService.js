@@ -38,6 +38,7 @@ const login = catchAsync(async (req, res) => {
 const updatePassword = catchAsync(async (req, res) => {
     try {
         const { uuid } = req.params;
+        console.log('Updating password for user with UUID:', uuid);
         const { current_password, new_password, password_confirmation } = req.body;
         const token = req.headers.authorization;
 
@@ -46,7 +47,7 @@ const updatePassword = catchAsync(async (req, res) => {
         }
 
         // Forward the request to the Auth Service
-        const response = await axios.put(
+        const response = await axios.patch(
             `http://${process.env.AUTH_SERVICE_URL}/auth/usuarios/${uuid}`,
             { current_password, new_password, password_confirmation },
             { headers: { Authorization: token } }

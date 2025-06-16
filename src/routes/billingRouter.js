@@ -3,19 +3,13 @@ import billingService from '../services/billingService.js';
 
 const billingRouter = Router();
 
-billingRouter.route('/check')
-    .get(billingService.BillsCheck);
-
 billingRouter.route('/')
-    .post(billingService.CreateBill); 
+    .post(billingService.CreateBill)
+    .get(billingService.ListBillsByUser);
 
 billingRouter.route('/:uuid')
     .get(billingService.GetBillById) 
-    .put(billingService.UpdateBillStatus) 
+    .patch(billingService.UpdateBillStatus) 
     .delete(billingService.DeleteBill); 
-
-billingRouter.route('/user/:userUuid')
-    .get(billingService.ListBillsByUser);
-
-
+  
 export default billingRouter;

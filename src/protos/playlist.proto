@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package playlist;
+
+// Playlist service definition
+service PlaylistService {
+  // Create playlist (POST /listas-reproduccion)
+  rpc CreatePlaylist(CreatePlaylistRequest) returns (Empty);
+  
+  // Add video to playlist (POST /listas-reproduccion/{id}/videos)
+  rpc AddVideoToPlaylist(AddVideoRequest) returns (Empty);
+  
+  // Remove video from playlist (DELETE /listas-reproduccion/{id}/videos)
+  rpc RemoveVideoFromPlaylist(RemoveVideoRequest) returns (Empty);
+  
+  // Get playlists (GET /listas-reproduccion)
+  rpc GetPlaylists(GetPlaylistsRequest) returns (Empty);
+  
+  // Get playlist videos (GET /listas-reproduccion/{id}/videos)
+  rpc GetPlaylistVideos(GetPlaylistVideosRequest) returns (Empty);
+  
+  // Delete playlist (DELETE /listas-reproduccion/{id})
+  rpc DeletePlaylist(DeletePlaylistRequest) returns (Empty);
+}
+
+// Empty message definition
+message Empty {}
+
+// Message definitions
+message CreatePlaylistRequest {
+  string data = 1;
+}
+
+message AddVideoRequest {
+  string data = 1;
+}
+
+message RemoveVideoRequest {
+  string data = 1;
+}
+
+message GetPlaylistsRequest {
+  string data = 1;
+}
+
+message GetPlaylistVideosRequest {
+  string data = 1;
+}
+
+message DeletePlaylistRequest {
+  string data = 1;
+}

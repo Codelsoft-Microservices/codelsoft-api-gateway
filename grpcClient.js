@@ -24,6 +24,12 @@ const loadClient = (app) => {
         credentials.createInsecure()
     );
     console.log("Users client loaded successfully");
+    const playlistProto = loadProto("playlist");
+    app.locals.playlistClient = new playlistProto.PlaylistService(
+        process.env.PLAYLIST_SERVICE_URL,
+        credentials.createInsecure()
+    );
+    console.log("Playlist client loaded successfully");
 };
 
 export default loadClient;

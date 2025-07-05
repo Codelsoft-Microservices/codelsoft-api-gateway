@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package monitoring;
+
+service MonitoringService {
+  rpc GetAllActions (Empty) returns (StatusResponse);
+  rpc GetAllErrors (Empty) returns (StatusResponse);
+}
+
+message Empty {}
+
+message StatusResponse {
+  string status = 1;
+}

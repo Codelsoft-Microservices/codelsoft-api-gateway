@@ -7,6 +7,8 @@ import videosRouter from "./src/routes/videosRouter.js";
 import authRouter from "./src/routes/authRouter.js";
 import usersRouter from "./src/routes/usersRouter.js";
 import playlistsRouter from "./src/routes/playlistRouter.js";
+import socialRouter from "./src/routes/socialRouter.js";
+import monitoringRouter from "./src/routes/monitoringRouter.js";
 
 config({ path: ".env" });
 const app = express();
@@ -27,6 +29,8 @@ app.use("/videos", videosRouter);
 app.use("/auth", authRouter);
 app.use("/usuarios", usersRouter);
 app.use("/listas-reproduccion", playlistsRouter);
+app.use("/monitoreo", monitoringRouter);
+app.use("/interacciones",socialRouter)
 
 app.listen(process.env.PORT, () => {
   console.log(`- Entorno:      ${process.env.NODE_ENV}`);

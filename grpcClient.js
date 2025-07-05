@@ -30,6 +30,21 @@ const loadClient = (app) => {
         credentials.createInsecure()
     );
     console.log("Playlist client loaded successfully");
+
+    const socialProto = loadProto("social");
+    app.locals.socialClient = new socialProto.SocialInteractions(
+        process.env.SOCIAL_SERVICE_URL,
+        credentials.createInsecure()
+    );
+    console.log("Social client loaded successfully");
+
+    const monitoringProto = loadProto("monitoring");
+    app.locals.monitoringClient = new monitoringProto.MonitoringService(
+        process.env.MONITORING_SERVICE_URL,
+        credentials.createInsecure()
+    );
+    console.log("Monitoring client loaded successfully");
+    
 };
 
 export default loadClient;

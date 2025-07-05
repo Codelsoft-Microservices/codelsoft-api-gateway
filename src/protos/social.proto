@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package social;
+
+service SocialService {
+  rpc LikeVideo(Empty) returns (StatusResponse);
+  rpc CommentVideo(Empty) returns (StatusResponse);
+  rpc GetVideoLikesAndCommentsRequest(Empty) returns (StatusResponse);
+}
+
+message StatusResponse {
+  string status = 1;
+}
+
+message Empty {}
